@@ -1,95 +1,40 @@
-// ok: intercom-settings-user-identifier-without-user-hash
-window.intercomSettings = {
-  app_id: appId,
-  name: myUserName,
-  email: myUserEmail,
-  user_hash: "my-user-hash",
-};
+f = document.location.hash.slice(1) + a;
+c = `${location.hash.split("#")[1]}/foo`;
+p = window.location.search.split("=")[1];
 
-// ok: intercom-settings-user-identifier-without-user-hash
-window.intercomSettings = {
-  app_id: appId,
-  name: myUserName,
-  user_id: myUserID,
-  user_hash: "my-user-hash",
-};
+// ruleid: tainted-redirect
+document.location = "https://" + f + a;
+// ruleid: tainted-redirect
+document.location = "https://" + c;
+// ruleid: tainted-redirect
+document.location = "//" + f;
+// ruleid: tainted-redirect
+document.location = "//" + c;
+// ruleid: tainted-redirect
+document.location = "//" + f;
+// ruleid: tainted-redirect
+document.location = "//" + p;
+// ruleid: tainted-redirect
+document.location = p;
+// ok: tainted-redirect
+document.location = "https://google.com/" + p;
 
-// ruleid: intercom-settings-user-identifier-without-user-hash
-window.intercomSettings = {
-  app_id: appId,
-  name: myUserName,
-  email: myUserEmail,
-};
+// ok: tainted-redirect
+document.location = "//" + parseInt(p) + "google.com";
+// ok: tainted-redirect
+document.location = "//" + Number.parseInt(p) + "google.com";
 
-// ruleid: intercom-settings-user-identifier-without-user-hash
-window.intercomSettings = {
-  app_id: appId,
-  name: myUserName,
-  user_id: myUserID,
-};
+const url = JSON.parse(JSON.stringify(window.location));
+if (!window.shell) {
+  redirect(url.href);
+}
 
-// ruleid: intercom-settings-user-identifier-without-user-hash
-Intercom('boot', {
-    app_id: 'abc12345',
-    email: 'john.doe@example.com',
-    name: 'John Doe',
-    user_id: '9876'
-});
+function redirect(href) {
+  // this works in Pro version:
+  document.location = href.split("=")[1];
+}
 
-// ok: intercom-settings-user-identifier-without-user-hash
-Intercom('boot', {
-    app_id: 'abc12345',
-    email: 'john.doe@example.com',
-    name: 'John Doe',
-    user_id: '9876',
-    user_hash: 'my-user-hash'
-});
-
-// ruleid: intercom-settings-user-identifier-without-user-hash
-Intercom('boot', {
-    app_id: 'abc12345',
-    email: 'john.doe@example.com',
-    name: 'John Doe',
-});
-
-// ok: intercom-settings-user-identifier-without-user-hash
-Intercom('boot', {
-    app_id: 'abc12345',
-    email: 'john.doe@example.com',
-    name: 'John Doe',
-    user_hash: 'my-user-hash'
-});
-
-// ruleid: intercom-settings-user-identifier-without-user-hash
-Intercom('boot', {
-    app_id: 'abc12345',
-    name: 'John Doe',
-    user_id: '9876'
-});
-
-// ok: intercom-settings-user-identifier-without-user-hash
-Intercom('boot', {
-    app_id: 'abc12345',
-    name: 'John Doe',
-    user_id: '9876',
-    user_hash: 'my-user-hash'
-});
-
-// ruleid: intercom-settings-user-identifier-without-user-hash
-myCustomSettings = {
-  app_id: appId,
-  name: myUserName,
-  user_id: myUserID,
-};
-
-Intercom('boot', myCustomSettings);
-
-// ok: intercom-settings-user-identifier-without-user-hash
-myCustomSettingsWithHash = {
-  app_id: appId,
-  name: myUserName,
-  user_id: myUserID,
-  user_hash: 'my-user-hash'
-};
-
-Intercom('boot', myCustomSettingsWithHash);
+if (smth()) {
+  // ruleid: tainted-redirect
+  document.location = url.href.split("=")[1];
+}
