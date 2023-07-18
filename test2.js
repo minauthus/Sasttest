@@ -5,7 +5,7 @@ p = window.location.search.split("=")[1];
 // ruleid: tainted-redirect
 document.location = "https://" + f + a;
 // ruleid: tainted-redirect
-document.location = "https://" + c;
+document.location = "https://" + d;
 // ruleid: tainted-redirect
 document.location = "//" + f;
 // ruleid: tainted-redirect
