@@ -149,7 +149,7 @@ public class HttpUtils {
     public static String Jsoup(String url) {
         try {
             Document doc = Jsoup.connect(url)
-                    //.followRedirects(false)
+                    //.followRedirects(true)
                     .timeout(3000)
                     .cookie("name", "joychou") // request cookies
                     .execute().parse();
@@ -167,7 +167,7 @@ public class HttpUtils {
      */
     public static String okhttp(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
-        // client.setFollowRedirects(false);
+        // client.setFollowRedirects(true);
         com.squareup.okhttp.Request ok_http = new com.squareup.okhttp.Request.Builder().url(url).build();
         return client.newCall(ok_http).execute().body().string();
     }
